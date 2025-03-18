@@ -1,0 +1,368 @@
+{
+  "name": "Supabase Vector Embeddings",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        -80
+      ],
+      "id": "be488299-8a0b-4a01-afeb-21de3c6e9d49",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        -60
+      ],
+      "id": "cc1442ce-3265-48ab-a200-6e78ccab010d",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SJHgs2vUBYIUaXvH",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chunkSize": 1536
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        360
+      ],
+      "id": "5179be8d-c42a-4159-803f-f89b4ebc815c",
+      "name": "Token Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1400,
+        140
+      ],
+      "id": "a37a4c62-8fc3-40a5-ae74-12abf3cbdc2d",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "Y0XTCW9Fwbdi1Vh4",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0ee49879-ad0c-428b-87bd-65272ba11501",
+              "name": "body",
+              "value": "={{ $json.body }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        60,
+        -80
+      ],
+      "id": "4a2baf3c-542a-4974-af17-f1062f06ddc7",
+      "name": "Get Body Only"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the body array from the first object\nconst files = $input.first().json.body;\n  \n  // Map each file to a flattened structure\nreturn files.map(file => ({\n  name: file.name,\n  id: file.id,\n  size: file.metadata.size,\n  type: file.metadata.mimetype,\n  lastModified: file.metadata.lastModified,\n  created: file.created_at,\n  updated: file.updated_at\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        -80
+      ],
+      "id": "dc149a9f-7c92-461e-9a40-3827dc775329",
+      "name": "Flat Json"
+    },
+    {
+      "parameters": {
+        "url": "=https://uqheoxpldtxxapqvfrme.supabase.co/storage/v1/object/templates/{{ $json.name }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "options": {}
+      },
+      "id": "9f74d536-e6a6-423b-a163-4ef4081caa46",
+      "name": "Download Templates",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        480,
+        -80
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "supabaseApi": {
+          "id": "SJHgs2vUBYIUaXvH",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $('Loop Over Items').item.json.data }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        140
+      ],
+      "id": "394f1f59-a57d-4909-8718-6fcd2d9d93bb",
+      "name": "Data Loader From Files"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://uqheoxpldtxxapqvfrme.supabase.co/storage/v1/object/list/templates",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"prefix\": \"\",\n  \"limit\": 100,\n  \"offset\": 0,\n  \"sortBy\": {\n    \"column\": \"name\",\n    \"order\": \"asc\"\n  },\n  \"search\": \"\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -160,
+        -80
+      ],
+      "id": "5c6e3017-86ae-4e2b-92e6-dd3657f8ba38",
+      "name": "Get Templates' files names",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "cED25L7JecOuHTNQ",
+          "name": "form  credentials"
+        },
+        "supabaseApi": {
+          "id": "SJHgs2vUBYIUaXvH",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "binaryPropertyName": "={{ $json.data }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1100,
+        -60
+      ],
+      "id": "0e33c85c-71dd-440b-aea0-206996ec611e",
+      "name": "Convert Data to Binary Files"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        680,
+        -80
+      ],
+      "id": "d9e842f5-5c70-4160-9738-25c8a4c9673a",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        900,
+        -220
+      ],
+      "id": "9733c3c4-85f3-407d-9e81-b4b1ab6028d8",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get Templates' files names",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Data Loader From Files",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Body Only": {
+      "main": [
+        [
+          {
+            "node": "Flat Json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flat Json": {
+      "main": [
+        [
+          {
+            "node": "Download Templates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Templates": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Loader From Files": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Templates' files names": {
+      "main": [
+        [
+          {
+            "node": "Get Body Only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert Data to Binary Files": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Convert Data to Binary Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "36b6e8b7-1f49-45ab-b3a8-fc28f858ba87",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8d243096d2807c2d1143907a92b7ef76946915bb023736ee030d89a6281d5ca2"
+  },
+  "id": "rQctP5Tk9RZ496rb",
+  "tags": []
+}

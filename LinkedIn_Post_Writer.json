@@ -1,0 +1,379 @@
+{
+  "name": "LinkedIn Post Writer",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "basicAuth",
+        "formTitle": "📱🤖 iCogito -  Social Media Content AI Agent",
+        "formDescription": "=This is syncbricks AI-driven assistant designed to simplify and accelerate your social media content creation process. This intelligent agent generates engaging and platform-optimized post descriptions based on your inputs, such as a brief topic or title and an uploaded image. Whether you're a marketer, business owner, or influencer, the AI streamlines content creation, saving time and ensuring professional-quality posts tailored to your audience.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Post Title/Topic",
+              "placeholder": "Write a brief and clear title or main topic for the post (e.g., \"New Product Launch,\" \"Exciting Company Update\"). This will help the AI understand the core subject of your post.",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Optional (Keywords or Hashtags)",
+              "placeholder": "Add any specific keywords or hashtags you want the AI to include in the post. This will ensure the generated content aligns with your branding or campaign needs.",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Optional Link",
+              "placeholder": "http:// link of any product, service, formt, support etc"
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {
+          "buttonLabel": "Continue to Image Upload"
+        }
+      },
+      "id": "dff0229c-e765-4efd-8580-aa56a190b4b6",
+      "name": "On form submission",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        120,
+        20
+      ],
+      "webhookId": "syncbricks-social-posting-ai-agent",
+      "typeVersion": 2.2,
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "cED25L7JecOuHTNQ",
+          "name": "form  credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a content creation AI for iCogito, a personal assistant designed to simplify and enhance your teaching experience. This tool is for teachers and we do not expect students to use it.\n\nYour goal is to craft engaging and informative content for LinkedIn ensuring that each post aligns with the platform's audience, tone, and style. The content should reflect iCogito expertise in providing value-driven insights and discussions that resonate with teaching professionals.\n\nEach post should be optimized for engagement, using LinkedIn hashtags to enhance reach and SEO. Maintain a professional yet approachable tone that fosters trust and authority in the teaching space.\n\nGeneral Teaching Hashtags for the english speaking community: #iCogito #Teaching #Education #Learning #EdTech #InnovationInEducation #TeachersOfLinkedIn #Educators #TeachingTips #EducationMatters #LearningAndDevelopment #TeachingCommunity #EducationTechnology #TeachingStrategies #EducationalInnovation #TeachingLife \n\nGeneral Teaching Hashtags for the french speaking community: #Enseignement #Éducation #Professeur #TeachingFrançais #Formation #Pédagogie #École #Université #Apprentissage #EnseignementInnovant #ÉducationNumérique #EnseignantsDuMonde #Enseigner #Apprendre #Éducation21eSiècle #TeachingTips #EnseignementSupérieur #Collège #Lycée #EnseignementPrimaire #EnseignementSecondaire #FormationContinue #PédagogieActive #InnovationÉducative #ÉducationInclusive #EnseignementÀDistance #Elearning #EnseignementEnLigne\n\nBest Practices for iCogito's Content Creation:\nPost Optimization: Adjust content format, style, and hashtags to suit each social media platform’s algorithm and audience engagement patterns.\nSEO & Hashtags: Use a balanced mix of general tech hashtags and platform-specific trending hashtags to maximize reach. Use the right hashtags when writing for the english and french speaking communities.\nEngagement-Driven Content: Focus on tech tutorials, IT industry updates, comparisons, reviews, and insightful discussions that spark engagement.\nConsistency: Maintain a consistent tone and visual identity across all platforms while tailoring content for each audience type.\nData-Backed Trends: Regularly analyze post-performance and adapt hashtag strategy to reflect trending discussions in Education and EdTech Innovation.\n🚀 Icogito's content should establish itself as a thought leader in the AI for Education by providing high-quality, relevant, and engaging posts that attract professors, school teachers, and EdTech enthusiasts.\n\n### Platform-Specific Requirements:\n1. **LinkedIn**:\n   - Style: Professional and informative.\n   - Tone: Focus on education achievements, teachers gratitude, and community impact.\n   - Content Length: 3-4 sentences, detailed and insightful.\n   - Call to Action: Engage businesses and professionals by encouraging use or visit to iCogito website.\n\nWith this guidance, generate posts for the LinkedIn platform for below given inputs;\n\n#### Event Highlight:\n- Topic / about the post:{{ $json['Post Title/Topic'] }}\n- some keywords: {{ $json['keywords'] }}\n- Visit Link :  : {{ $('On form submission').item.json['Optional Link'] }}\n\nNote that if visit link is blank then provide the link http://icogito.ai\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "id": "64d0026b-8cf7-4d2f-9d03-680d74391bd4",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        380,
+        280
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"event_name\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"event_description\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"platform_posts\": {\n\t\t\t\"type\": \"object\",\n\t\t\t\"properties\": {\n\t\t\t\t\"LinkedIn\": {\n\t\t\t\t\t\"type\": \"object\",\n\t\t\t\t\t\"properties\": {\n\t\t\t\t\t\t\"post\": {\n\t\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"hashtags\": {\n\t\t\t\t\t\t\t\"type\": \"array\",\n\t\t\t\t\t\t\t\"items\": {\n\t\t\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"call_to_action\": {\n\t\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t},\n\t\t\"additional_notes\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}\n"
+      },
+      "id": "d5e02df8-89c9-48e1-a20e-7c0e6c1117cb",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        660,
+        480
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "include": "selected",
+        "includeFields": "output.platform_posts.LinkedIn.post",
+        "options": {}
+      },
+      "id": "e9187c6c-03b3-4c48-a041-86a13190db35",
+      "name": "Split Form Input",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        400,
+        20
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "image",
+              "fieldType": "file",
+              "acceptFileTypes": ".jpg",
+              "requiredField": "={{ true }}"
+            }
+          ]
+        },
+        "options": {
+          "formTitle": "Review the Text",
+          "formDescription": "=Please review the text, I will be Publishing this on Social Media, note that to generate the text I am using tokents.\nNote below Text : \n\nLinkedin : \n{{ $json.data[0].output.event_name }}\n{{ $json.data[0].output.event_description }}\n{{ $json.data[0].output.platform_posts.LinkedIn.post }}\n{{ $json.data[0].output.platform_posts.LinkedIn.call_to_action }}",
+          "buttonLabel": "Proceed to Next Step"
+        }
+      },
+      "id": "05ddf9a0-3b6e-439c-b062-a91b2405c21a",
+      "name": "Upload Image",
+      "type": "n8n-nodes-base.form",
+      "position": [
+        940,
+        280
+      ],
+      "webhookId": "0dc811ef-b2e0-4213-a0c9-e9b5fb9fcbf1",
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "include": "selected",
+        "includeFields": "output.platform_posts.LinkedIn.post",
+        "options": {}
+      },
+      "id": "f4a9e8ee-5165-42f8-bd14-4ac7d3993531",
+      "name": "Split Data",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        640,
+        20
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5d35062b-5f6d-44ba-bc52-54b0e841c31a",
+              "name": "Post Title/Topic",
+              "type": "string",
+              "value": "={{ $('On form submission').item.json['Post Title/Topic'] }}"
+            },
+            {
+              "id": "400ed7a9-d839-4fe7-b8a0-deb7d89e264a",
+              "name": "formMode",
+              "type": "string",
+              "value": "={{ $('On form submission').item.json.formMode }}"
+            },
+            {
+              "id": "9457b2a1-0625-4be2-a2d2-046048de67a4",
+              "name": "keywords",
+              "value": "={{ $('On form submission').item.json['Optional (Keywords or Hashtags)'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "52970cf0-c916-43d5-a9c8-6ab0a074bb31",
+      "name": "Data for AI",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        960,
+        20
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "943bdca4-1c66-4e48-b558-52019724810f",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "position": [
+        740,
+        280
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini-2024-07-18",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini-2024-07-18"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        480
+      ],
+      "id": "1d9db302-630e-401c-a8e9-66073481cd9e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Y0XTCW9Fwbdi1Vh4",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "get_relevant_linkedin_post_template",
+        "description": "Call this tool to retrieve one LinkedIn post template and the advice in how to use it. Use the most relevant template following the \"Post Title/Topic\".",
+        "workflowId": {
+          "__rl": true,
+          "value": "pmTcJ5nWDCPweL6D",
+          "mode": "list",
+          "cachedResultName": "RAG as microservice"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "chatInput": "=Post Title/Topic: {{ $('Data for AI').item.json['Post Title/Topic'] }}"
+          },
+          "matchingColumns": [
+            "chatInput"
+          ],
+          "schema": [
+            {
+              "id": "chatInput",
+              "displayName": "chatInput",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2,
+      "position": [
+        480,
+        540
+      ],
+      "id": "dd451478-1200-40e8-aa4c-ad7081864024",
+      "name": "Call n8n Workflow Tool"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Split Form Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Form Input": {
+      "main": [
+        [
+          {
+            "node": "Split Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Image": {
+      "main": [
+        []
+      ]
+    },
+    "Split Data": {
+      "main": [
+        [
+          {
+            "node": "Data for AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data for AI": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Upload Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b9c6b08a-774f-42cf-82c5-9e92c0ceb61d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8d243096d2807c2d1143907a92b7ef76946915bb023736ee030d89a6281d5ca2"
+  },
+  "id": "dRsS6LHBtF6LEEp9",
+  "tags": [
+    {
+      "name": "iCogito",
+      "id": "YPoaJT0PZAiIpmjA",
+      "createdAt": "2025-03-17T12:01:46.389Z",
+      "updatedAt": "2025-03-17T12:01:46.389Z"
+    }
+  ]
+}
