@@ -26,7 +26,7 @@
         },
         "responseMode": "lastNode",
         "options": {
-          "buttonLabel": "Continue to Image Upload"
+          "buttonLabel": "Continue to create the post"
         }
       },
       "id": "dff0229c-e765-4efd-8580-aa56a190b4b6",
@@ -48,7 +48,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You are a content creation AI for iCogito, a personal assistant designed to simplify and enhance your teaching experience. This tool is for teachers and we do not expect students to use it.\n\nYour goal is to craft engaging and informative content for LinkedIn ensuring that each post aligns with the platform's audience, tone, and style. The content should reflect iCogito expertise in providing value-driven insights and discussions that resonate with teaching professionals.\n\nEach post should be optimized for engagement, using LinkedIn hashtags to enhance reach and SEO. Maintain a professional yet approachable tone that fosters trust and authority in the teaching space.\n\nGeneral Teaching Hashtags for the english speaking community: #iCogito #Teaching #Education #Learning #EdTech #InnovationInEducation #TeachersOfLinkedIn #Educators #TeachingTips #EducationMatters #LearningAndDevelopment #TeachingCommunity #EducationTechnology #TeachingStrategies #EducationalInnovation #TeachingLife \n\nGeneral Teaching Hashtags for the french speaking community: #Enseignement #Éducation #Professeur #TeachingFrançais #Formation #Pédagogie #École #Université #Apprentissage #EnseignementInnovant #ÉducationNumérique #EnseignantsDuMonde #Enseigner #Apprendre #Éducation21eSiècle #TeachingTips #EnseignementSupérieur #Collège #Lycée #EnseignementPrimaire #EnseignementSecondaire #FormationContinue #PédagogieActive #InnovationÉducative #ÉducationInclusive #EnseignementÀDistance #Elearning #EnseignementEnLigne\n\nBest Practices for iCogito's Content Creation:\nPost Optimization: Adjust content format, style, and hashtags to suit each social media platform’s algorithm and audience engagement patterns.\nSEO & Hashtags: Use a balanced mix of general tech hashtags and platform-specific trending hashtags to maximize reach. Use the right hashtags when writing for the english and french speaking communities.\nEngagement-Driven Content: Focus on tech tutorials, IT industry updates, comparisons, reviews, and insightful discussions that spark engagement.\nConsistency: Maintain a consistent tone and visual identity across all platforms while tailoring content for each audience type.\nData-Backed Trends: Regularly analyze post-performance and adapt hashtag strategy to reflect trending discussions in Education and EdTech Innovation.\n🚀 Icogito's content should establish itself as a thought leader in the AI for Education by providing high-quality, relevant, and engaging posts that attract professors, school teachers, and EdTech enthusiasts.\n\n### Platform-Specific Requirements:\n1. **LinkedIn**:\n   - Style: Professional and informative.\n   - Tone: Focus on education achievements, teachers gratitude, and community impact.\n   - Content Length: 3-4 sentences, detailed and insightful.\n   - Call to Action: Engage businesses and professionals by encouraging use or visit to iCogito website.\n\nWith this guidance, generate posts for the LinkedIn platform for below given inputs;\n\n#### Event Highlight:\n- Topic / about the post:{{ $json['Post Title/Topic'] }}\n- some keywords: {{ $json['keywords'] }}\n- Visit Link :  : {{ $('On form submission').item.json['Optional Link'] }}\n\nNote that if visit link is blank then provide the link http://icogito.ai\n",
+        "text": "=You are an AI assistant tasked with creating an engaging LinkedIn post for educators and professionals working in the field of education and EdTech. The goal is to highlight iCogito’s value as a tool for simplifying teaching experiences.\n\nYour goal is to craft engaging and informative content for LinkedIn ensuring that each post aligns with the platform's audience, tone, and style. The content should reflect iCogito expertise in providing value-driven insights and discussions that resonate with teaching professionals.\n\nRetrieve the Structure Requirements for iCogito's Content Creation using the tool to retrieve LinkedIn post templates and Best Practices - advices to fill the post template. Only modify the 'varible' zone keep the rest unchanged. Also keep all emojis used in the template returned by the tool.\n\nWith this guidance, generate posts for the LinkedIn platform for below given inputs;\n\n#### Event Highlight:\n- Topic / about the post:{{ $json['Post Title/Topic'] }}\n- Language: choose the language matching what is used in the Post Topic \"{{ $json['Post Title/Topic'] }}\"\n- some keywords: {{ $json['keywords'] }}\n- Hashtags: #iCogito #Teaching #Education #Learning #EdTech #InnovationInEducation  #Enseignement #Éducation #Professeur #TeachingFrançais #Formation #Pédagogie\n- Visit Link :  : {{ $('On form submission').item.json['Optional Link'] }}\n\nNote that if visit link is blank then provide the link http://icogito.ai, use an appealing sentence to invite the reader to follow the provided link\n",
         "hasOutputParser": true,
         "options": {}
       },
@@ -56,7 +56,7 @@
       "name": "AI Agent",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
-        380,
+        120,
         280
       ],
       "typeVersion": 1.7
@@ -64,14 +64,14 @@
     {
       "parameters": {
         "schemaType": "manual",
-        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"event_name\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"event_description\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"platform_posts\": {\n\t\t\t\"type\": \"object\",\n\t\t\t\"properties\": {\n\t\t\t\t\"LinkedIn\": {\n\t\t\t\t\t\"type\": \"object\",\n\t\t\t\t\t\"properties\": {\n\t\t\t\t\t\t\"post\": {\n\t\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"hashtags\": {\n\t\t\t\t\t\t\t\"type\": \"array\",\n\t\t\t\t\t\t\t\"items\": {\n\t\t\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"call_to_action\": {\n\t\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t},\n\t\t\"additional_notes\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}\n"
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"event_name\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"event_description\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"platform_posts\": {\n\t\t\t\"type\": \"object\",\n\t\t\t\"properties\": {\n\t\t\t\t\"LinkedIn\": {\n\t\t\t\t\t\"type\": \"object\",\n\t\t\t\t\t\"properties\": {\n\t\t\t\t\t\t\"accroche_hook\": {\n\t\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t\t},\n                        \"problem_signs\": {\n                            \"type\": \"string\"\n                        },\n                        \"solution_explanation\": {\n                            \"type\": \"string\"\n                        },\n                        \"result_actions\": {\n                            \"type\": \"string\"\n                        },\n                        \"hashtags\": {\n\t\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"call_to_action\": {\n\t\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t},\n\t\t\"additional_notes\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}\n"
       },
       "id": "d5e02df8-89c9-48e1-a20e-7c0e6c1117cb",
       "name": "Structured Output Parser",
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "position": [
-        660,
-        480
+        420,
+        500
       ],
       "typeVersion": 1.2
     },
@@ -89,34 +89,6 @@
         20
       ],
       "typeVersion": 3.2
-    },
-    {
-      "parameters": {
-        "formFields": {
-          "values": [
-            {
-              "fieldLabel": "image",
-              "fieldType": "file",
-              "acceptFileTypes": ".jpg",
-              "requiredField": "={{ true }}"
-            }
-          ]
-        },
-        "options": {
-          "formTitle": "Review the Text",
-          "formDescription": "=Please review the text, I will be Publishing this on Social Media, note that to generate the text I am using tokents.\nNote below Text : \n\nLinkedin : \n{{ $json.data[0].output.event_name }}\n{{ $json.data[0].output.event_description }}\n{{ $json.data[0].output.platform_posts.LinkedIn.post }}\n{{ $json.data[0].output.platform_posts.LinkedIn.call_to_action }}",
-          "buttonLabel": "Proceed to Next Step"
-        }
-      },
-      "id": "05ddf9a0-3b6e-439c-b062-a91b2405c21a",
-      "name": "Upload Image",
-      "type": "n8n-nodes-base.form",
-      "position": [
-        940,
-        280
-      ],
-      "webhookId": "0dc811ef-b2e0-4213-a0c9-e9b5fb9fcbf1",
-      "typeVersion": 1
     },
     {
       "parameters": {
@@ -163,7 +135,7 @@
       "name": "Data for AI",
       "type": "n8n-nodes-base.set",
       "position": [
-        960,
+        860,
         20
       ],
       "typeVersion": 3.4
@@ -177,7 +149,7 @@
       "name": "Aggregate",
       "type": "n8n-nodes-base.aggregate",
       "position": [
-        740,
+        440,
         280
       ],
       "typeVersion": 1
@@ -195,8 +167,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        280,
-        480
+        80,
+        500
       ],
       "id": "1d9db302-630e-401c-a8e9-66073481cd9e",
       "name": "OpenAI Chat Model",
@@ -210,7 +182,7 @@
     {
       "parameters": {
         "name": "get_relevant_linkedin_post_template",
-        "description": "Call this tool to retrieve one LinkedIn post template and the advice in how to use it. Use the most relevant template following the \"Post Title/Topic\".",
+        "description": "Call this tool to retrieve one LinkedIn post template and the advice on how to use it. Use the most relevant template following the \"Post Title/Topic\".",
         "workflowId": {
           "__rl": true,
           "value": "pmTcJ5nWDCPweL6D",
@@ -244,11 +216,220 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2,
       "position": [
-        480,
-        540
+        260,
+        500
       ],
       "id": "dd451478-1200-40e8-aa4c-ad7081864024",
-      "name": "Call n8n Workflow Tool"
+      "name": "Retrieve Post Template"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Go or Nogo",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "GO"
+                  },
+                  {
+                    "option": "No GO"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {
+          "formTitle": "Review the Text",
+          "formDescription": "=Please review the text, I will be Publishing this on Social Media, note that to generate the text I am using tokents.\nNote below Text : \n\nLinkedin : \n{{ $json.data[0].output.event_name }}\n\n{{ $json.data[0].output.event_description }}\n\n{{ $json.data[0].output.platform_posts.LinkedIn.accroche_hook }}\n{{ $json.data[0].output.platform_posts.LinkedIn.problem_signs }}\n{{ $json.data[0].output.platform_posts.LinkedIn.solution_explanation }}\n___\n\n{{ $json.data[0].output.platform_posts.LinkedIn.result_actions }}\n\n{{ $json.data[0].output.platform_posts.LinkedIn.call_to_action }}\n\n{{ $json.data[0].output.platform_posts.LinkedIn.hashtags }}",
+          "buttonLabel": "Proceed to Next Step"
+        }
+      },
+      "id": "05ddf9a0-3b6e-439c-b062-a91b2405c21a",
+      "name": "Verify Post",
+      "type": "n8n-nodes-base.form",
+      "position": [
+        640,
+        280
+      ],
+      "webhookId": "0dc811ef-b2e0-4213-a0c9-e9b5fb9fcbf1",
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1c0da2a2-b6af-80c4-a596-eaca60a29678",
+          "mode": "list",
+          "cachedResultName": "LinkedIn posts",
+          "cachedResultUrl": "https://www.notion.so/1c0da2a2b6af80c4a596eaca60a29678"
+        },
+        "title": "={{ $('Aggregate').item.json.data[0].output.event_name }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Description|rich_text",
+              "textContent": "={{ $('Aggregate').item.json.data[0].output.event_description }}"
+            },
+            {
+              "key": "Status|status",
+              "statusValue": "=Draft"
+            }
+          ]
+        },
+        "blockUi": {
+          "blockValues": [
+            {
+              "type": "heading_1",
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $('Aggregate').item.json.data[0].output.event_name }}",
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "type": "heading_2",
+              "textContent": "={{ $('Aggregate').item.json.data[0].output.platform_posts.LinkedIn.accroche_hook }}"
+            },
+            {
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $('Aggregate').item.json.data[0].output.platform_posts.LinkedIn.problem_signs }}",
+                    "annotationUi": {}
+                  },
+                  {
+                    "text": "={{ $('Aggregate').item.json.data[0].output.platform_posts.LinkedIn.solution_explanation }}",
+                    "annotationUi": {}
+                  },
+                  {
+                    "text": "={{ $('Aggregate').item.json.data[0].output.platform_posts.LinkedIn.result_actions }}",
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $('Aggregate').item.json.data[0].output.platform_posts.LinkedIn.call_to_action }}",
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "textContent": "={{ $('Aggregate').item.json.data[0].output.platform_posts.LinkedIn.hashtags }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1080,
+        200
+      ],
+      "id": "0df81b02-c005-4848-8165-a8d6d15ab7a1",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "PD9ERohL5SfNF6k8",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2bfe068a-03c3-4935-8366-2306bb9a2a3b",
+              "leftValue": "={{ $json['Go or Nogo'] }}",
+              "rightValue": "GO",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        860,
+        280
+      ],
+      "id": "2a7ba27f-0663-4d61-bdf1-ee0391c9374a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "rondondaniel@gmail.com",
+        "subject": "[Success] Write LinkedIn Post Workflow speaking",
+        "message": "=Titre : {{ $json.name }}\nDescription : {{ $json.property_description }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1300,
+        200
+      ],
+      "id": "95bade35-d6e7-452a-8eaf-748af0517792",
+      "name": "Send Success Mail",
+      "webhookId": "007b613d-cefa-4000-b226-5c3e9dd7d87f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PR99uT5B4yHf2IuB",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "rondondaniel@gmail.com",
+        "subject": "[NO GO] Write LinkedIn",
+        "message": "Post not selected to publish",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1080,
+        400
+      ],
+      "id": "efdb2618-379d-4046-9a73-863065c6c885",
+      "name": "Send NO GO Mail",
+      "webhookId": "0047335a-3d04-4e0f-8bbe-90a56ab68e99",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PR99uT5B4yHf2IuB",
+          "name": "Gmail account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -297,11 +478,6 @@
         ]
       ]
     },
-    "Upload Image": {
-      "main": [
-        []
-      ]
-    },
     "Split Data": {
       "main": [
         [
@@ -328,7 +504,7 @@
       "main": [
         [
           {
-            "node": "Upload Image",
+            "node": "Verify Post",
             "type": "main",
             "index": 0
           }
@@ -346,12 +522,52 @@
         ]
       ]
     },
-    "Call n8n Workflow Tool": {
+    "Retrieve Post Template": {
       "ai_tool": [
         [
           {
             "node": "AI Agent",
             "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Post": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send NO GO Mail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Send Success Mail",
+            "type": "main",
             "index": 0
           }
         ]
@@ -362,7 +578,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "b9c6b08a-774f-42cf-82c5-9e92c0ceb61d",
+  "versionId": "13e2356c-098c-4233-8991-a5b302690897",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "8d243096d2807c2d1143907a92b7ef76946915bb023736ee030d89a6281d5ca2"
@@ -370,10 +586,10 @@
   "id": "dRsS6LHBtF6LEEp9",
   "tags": [
     {
-      "name": "iCogito",
-      "id": "YPoaJT0PZAiIpmjA",
       "createdAt": "2025-03-17T12:01:46.389Z",
-      "updatedAt": "2025-03-17T12:01:46.389Z"
+      "updatedAt": "2025-03-17T12:01:46.389Z",
+      "id": "YPoaJT0PZAiIpmjA",
+      "name": "iCogito"
     }
   ]
 }
